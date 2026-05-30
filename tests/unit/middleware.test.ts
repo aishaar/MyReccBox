@@ -57,7 +57,7 @@ describe('Auth Middleware', () => {
     expect(response.status).toBe(200)
   })
 
-  it('redirects unauthenticated users from /inbox to /login', async () => {
+  it('redirects unauthenticated users from /inbox to /user', async () => {
     const mockGetUser = vi.fn().mockResolvedValue({ data: { user: null } })
     mockCreateServerClient.mockReturnValue({
       auth: { getUser: mockGetUser },
@@ -70,7 +70,7 @@ describe('Auth Middleware', () => {
     expect(mockCreateServerClient).toHaveBeenCalled()
     expect(mockGetUser).toHaveBeenCalled()
     expect(response.status).toBe(307)
-    expect(response.headers.get('location')).toBe('http://localhost:3000/login')
+    expect(response.headers.get('location')).toBe('http://localhost:3000/user')
   })
 
   it('allows authenticated users to access /inbox', async () => {
@@ -100,6 +100,6 @@ describe('Auth Middleware', () => {
     const response = await middleware(request)
 
     expect(response.status).toBe(307)
-    expect(response.headers.get('location')).toBe('http://localhost:3000/login')
+    expect(response.headers.get('location')).toBe('http://localhost:3000/user')
   })
 })

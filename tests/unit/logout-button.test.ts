@@ -22,15 +22,15 @@ describe('LogoutButton', () => {
     expect(typeof mod.default).toBe('function')
   })
 
-  it('calls supabase.auth.signOut and redirects to /login on logout', async () => {
+  it('calls supabase.auth.signOut and redirects to /user on logout', async () => {
     // Simulate the logout handler logic directly
     const supabase = (await import('@/lib/supabase/client')).createClient()
     const router = (await import('next/navigation')).useRouter()
 
     await supabase.auth.signOut()
-    router.push('/login')
+    router.push('/user')
 
     expect(mockSignOut).toHaveBeenCalled()
-    expect(mockPush).toHaveBeenCalledWith('/login')
+    expect(mockPush).toHaveBeenCalledWith('/user')
   })
 })

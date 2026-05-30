@@ -20,7 +20,7 @@ export default async function InboxPage({ searchParams }: InboxPageProps) {
   const { data: { user } } = await supabase.auth.getUser()
 
   if (!user) {
-    redirect('/login')
+    redirect('/user')
   }
 
   // Validate category param
@@ -47,7 +47,7 @@ export default async function InboxPage({ searchParams }: InboxPageProps) {
     <main className="min-h-screen bg-gray-50 px-4 py-8">
       <div className="mx-auto max-w-3xl">
         <header className="mb-8 flex items-center justify-between">
-          <h1 className="text-2xl font-bold text-gray-900">My Inbox</h1>
+          <h1 className="text-2xl font-bold text-gray-900">Recommendations Received</h1>
           <LogoutButton />
         </header>
 

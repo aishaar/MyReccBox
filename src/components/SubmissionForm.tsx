@@ -21,7 +21,7 @@ const CATEGORIES: Category[] = ['Book', 'Movie', 'Show', 'Restaurant', 'Other']
 export default function SubmissionForm({ username, userId }: SubmissionFormProps) {
   const [errors, setErrors] = useState<ValidationErrors>({})
   const [serverError, setServerError] = useState<string | null>(null)
-  const [successMessage, setSuccessMessage] = useState<string | null>(null)
+  const [submitted, setSubmitted] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const formRef = useRef<HTMLFormElement>(null)
 
@@ -58,7 +58,6 @@ export default function SubmissionForm({ username, userId }: SubmissionFormProps
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    setSuccessMessage(null)
     setServerError(null)
 
     const formData = new FormData(event.currentTarget)
@@ -76,9 +75,9 @@ export default function SubmissionForm({ username, userId }: SubmissionFormProps
       const result = await submitSuggestion(formData)
 
       if (result.success) {
-        setSuccessMessage('Your recommendation has been sent!')
         setServerError(null)
         formRef.current?.reset()
+        setSubmitted(true)
       } else {
         setServerError(result.error ?? 'Something went wrong. Please try again.')
       }
@@ -89,15 +88,35 @@ export default function SubmissionForm({ username, userId }: SubmissionFormProps
     }
   }
 
+  if (submitted) {
+    return (
+      <div
+        className="flex flex-col items-center gap-4 rounded-lg bg-white p-8 text-center shadow-md"
+        role="status"
+      >
+        <span className="text-6xl" aria-hidden="true">🎉</span>
+        <h2 className="text-xl font-semibold text-gray-900">Recommendation sent!</h2>
+        <p className="text-sm text-gray-600">
+          Thanks — {username} will see your recommendation in their inbox.
+        </p>
+        <button
+          type="button"
+          onClick={() => {
+            setSubmitted(false)
+            setErrors({})
+            setServerError(null)
+          }}
+          className="mt-2 rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+        >
+          Send another one
+        </button>
+      </div>
+    )
+  }
+
   return (
     <form ref={formRef} onSubmit={handleSubmit} className="space-y-5 rounded-lg bg-white p-6 shadow-md" noValidate>
       <input type="hidden" name="user_id" value={userId} />
-
-      {successMessage && (
-        <div className="rounded-md bg-green-50 p-4 text-sm text-green-800" role="status">
-          {successMessage}
-        </div>
-      )}
 
       {serverError && (
         <div className="rounded-md bg-red-50 p-4 text-sm text-red-800" role="alert">

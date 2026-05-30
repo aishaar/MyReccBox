@@ -12,12 +12,18 @@ export default function Home() {
           across texts, DMs, and conversations — and those recommendations get
           lost. MyReccBox gives you one place to collect them all.
         </p>
-        <div className="mt-10">
+        <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
           <Link
             href="/recommend/aisha"
             className="inline-block rounded-md bg-indigo-600 px-6 py-3 text-base font-semibold text-white shadow-sm hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
           >
-            Try the Demo
+            Send a Recommendation (demo)
+          </Link>
+          <Link
+            href="/user"
+            className="inline-block rounded-md border border-indigo-600 bg-white px-6 py-3 text-base font-semibold text-indigo-600 shadow-sm hover:bg-indigo-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+          >
+            My Recommendations
           </Link>
         </div>
       </div>

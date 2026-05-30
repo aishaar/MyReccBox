@@ -14,6 +14,6 @@ export async function GET(request: Request) {
     }
   }
 
-  // Redirect to login with error param on failure (expired/invalid link)
-  return NextResponse.redirect(`${origin}/login?error=expired`)
+  // Redirect to login with error param on failure
+  return NextResponse.redirect(`${origin}/user?error=expired`)
 }
