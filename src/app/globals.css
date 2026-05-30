@@ -1,3 +1,14 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-cocoa-950 text-orange-100;
+  }
+
+  /* Light-orange placeholders that read on dark inputs */
+  ::placeholder {
+    @apply text-orange-200/40;
+  }
+}

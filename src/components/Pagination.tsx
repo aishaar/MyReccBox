@@ -28,17 +28,17 @@ export default function Pagination({ currentPage, totalPages }: PaginationProps)
       <button
         onClick={() => handlePageChange(currentPage - 1)}
         disabled={currentPage <= 1}
-        className="rounded-md border px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50"
+        className="rounded-lg border border-cocoa-700 bg-cocoa-850 px-3 py-2 text-sm font-medium text-orange-200 transition-colors hover:bg-cocoa-800 disabled:cursor-not-allowed disabled:opacity-40"
       >
         Previous
       </button>
-      <span className="text-sm text-gray-600">
+      <span className="text-sm text-orange-200/70">
         Page {currentPage} of {totalPages}
       </span>
       <button
         onClick={() => handlePageChange(currentPage + 1)}
         disabled={currentPage >= totalPages}
-        className="rounded-md border px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50"
+        className="rounded-lg border border-cocoa-700 bg-cocoa-850 px-3 py-2 text-sm font-medium text-orange-200 transition-colors hover:bg-cocoa-800 disabled:cursor-not-allowed disabled:opacity-40"
       >
         Next
       </button>

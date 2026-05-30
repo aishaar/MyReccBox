@@ -4,6 +4,7 @@ import { useState } from 'react'
 import type { Suggestion } from '@/types'
 import { truncateNotes } from '@/lib/utils/truncate'
 import { relativeTime } from '@/lib/utils/time'
+import { getCategoryBadgeClasses } from '@/lib/utils/categoryStyles'
 
 interface SuggestionCardProps {
   suggestion: Suggestion
@@ -48,29 +49,37 @@ export default function SuggestionCard({ suggestion, onMarkSeen }: SuggestionCar
           handleClick()
         }
       }}
-      className={`cursor-pointer rounded-lg border bg-white p-4 shadow-sm transition-opacity ${
-        optimisticSeen ? 'opacity-60' : 'opacity-100'
+      className={`cursor-pointer rounded-xl border border-cocoa-700 bg-cocoa-850 p-5 shadow-sm transition-all hover:bg-cocoa-800 hover:shadow-md ${
+        optimisticSeen
+          ? 'opacity-60'
+          : 'border-l-4 border-l-flame-500 opacity-100'
       }`}
     >
       <div className="flex items-start justify-between">
         <div className="flex-1">
           <div className="flex items-center gap-2">
-            <span className="inline-block rounded-full bg-indigo-100 px-2.5 py-0.5 text-xs font-medium text-indigo-800">
+            <span
+              className={`inline-block rounded-full px-2.5 py-0.5 text-xs font-semibold ${getCategoryBadgeClasses(
+                category
+              )}`}
+            >
               {category}
             </span>
-            <span className="text-xs text-gray-500">{relativeTime(created_at)}</span>
+            <span className="text-xs text-orange-200/50">{relativeTime(created_at)}</span>
           </div>
-          <h3 className="mt-1 text-lg font-semibold text-gray-900">{title}</h3>
-          <p className="mt-0.5 text-sm text-gray-600">from {name}</p>
+          <h3 className="mt-2 text-lg font-semibold text-orange-50">{title}</h3>
+          <p className="mt-0.5 text-sm text-orange-200/60">
+            from <span className="font-semibold text-orange-100">{name}</span>
+          </p>
           {notes && (
-            <p className="mt-2 text-sm text-gray-700">
+            <p className="mt-2 text-sm leading-relaxed text-orange-200/80">
               {truncateNotes(notes, 200)}
             </p>
           )}
         </div>
       </div>
       {error && (
-        <div className="mt-2 rounded bg-red-50 px-3 py-1.5 text-sm text-red-700" role="alert">
+        <div className="mt-2 rounded border border-red-500/30 bg-red-500/10 px-3 py-1.5 text-sm text-red-300" role="alert">
           {error}
         </div>
       )}

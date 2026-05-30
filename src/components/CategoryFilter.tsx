@@ -40,8 +40,8 @@ export default function CategoryFilter({ categories, activeCategory }: CategoryF
             aria-pressed={isActive}
             className={`rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${
               isActive
-                ? 'bg-indigo-600 text-white'
-                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                ? 'bg-flame-500 text-white'
+                : 'bg-cocoa-800 text-orange-200 hover:bg-cocoa-700'
             }`}
           >
             {category === 'all' ? 'All' : category}

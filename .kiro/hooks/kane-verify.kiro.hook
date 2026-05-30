@@ -1,0 +1,13 @@
+{
+  "name": "Kane Verify on Deploy",
+  "version": "1.0.0",
+  "description": "Runs a Kane CLI smoke test when frontend or deploy-relevant files change",
+  "when": {
+    "type": "fileEdited",
+    "patterns": ["src/app/**/*.tsx", "src/app/**/*.ts", "src/components/**/*.tsx", "next.config.mjs"]
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "A deploy-relevant file was edited. Run a Kane CLI smoke test against the local dev server to verify the app still loads and the main page renders correctly. Use: kane-cli run \"Go to http://localhost:3000, assert the page loads without errors\" --agent --headless --timeout 60"
+  }
+}

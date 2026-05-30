@@ -55,15 +55,15 @@ function LoginFields() {
   return (
     <div className="w-full max-w-md space-y-8">
       <div className="text-center">
-        <h1 className="text-3xl font-bold text-gray-900">Sign in to MyReccBox</h1>
-        <p className="mt-2 text-gray-600">
+        <h1 className="text-3xl font-bold text-orange-50">Sign in to MyReccBox</h1>
+        <p className="mt-2 text-orange-200/80">
           Enter your email and password to view your recommendations.
         </p>
       </div>
 
       {errorParam && (
-        <div className="rounded-md bg-red-50 border border-red-200 p-4">
-          <p className="text-sm text-red-700">
+        <div className="rounded-lg border border-red-500/30 bg-red-500/10 p-4">
+          <p className="text-sm text-red-300">
             An error occurred. Please sign in again.
           </p>
         </div>
@@ -73,7 +73,7 @@ function LoginFields() {
         <div>
           <label
             htmlFor="email"
-            className="block text-sm font-medium text-gray-700"
+            className="block text-sm font-medium text-orange-200"
           >
             Email address
           </label>
@@ -84,7 +84,7 @@ function LoginFields() {
             autoComplete="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm"
+            className="mt-1 block w-full rounded-lg border border-cocoa-600 bg-cocoa-800 px-3 py-2 text-orange-50 shadow-sm transition-colors focus:border-flame-500 focus:outline-none focus:ring-1 focus:ring-flame-500 sm:text-sm"
             placeholder="you@example.com"
           />
         </div>
@@ -92,7 +92,7 @@ function LoginFields() {
         <div>
           <label
             htmlFor="password"
-            className="block text-sm font-medium text-gray-700"
+            className="block text-sm font-medium text-orange-200"
           >
             Password
           </label>
@@ -103,24 +103,24 @@ function LoginFields() {
             autoComplete="current-password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm"
+            className="mt-1 block w-full rounded-lg border border-cocoa-600 bg-cocoa-800 px-3 py-2 text-orange-50 shadow-sm transition-colors focus:border-flame-500 focus:outline-none focus:ring-1 focus:ring-flame-500 sm:text-sm"
             placeholder="••••••••"
           />
           {validationError && (
-            <p className="mt-1 text-sm text-red-600">{validationError}</p>
+            <p className="mt-1 text-sm text-red-400">{validationError}</p>
           )}
         </div>
 
         {serverError && (
-          <div className="rounded-md bg-red-50 border border-red-200 p-4">
-            <p className="text-sm text-red-700">{serverError}</p>
+          <div className="rounded-lg border border-red-500/30 bg-red-500/10 p-4">
+            <p className="text-sm text-red-300">{serverError}</p>
           </div>
         )}
 
         <button
           type="submit"
           disabled={loading}
-          className="w-full flex justify-center rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full flex justify-center rounded-lg bg-flame-500 px-4 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-flame-600 focus:outline-none focus:ring-2 focus:ring-flame-500 focus:ring-offset-2 focus:ring-offset-cocoa-950 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {loading ? 'Signing in...' : 'Sign In'}
         </button>
@@ -131,10 +131,10 @@ function LoginFields() {
 
 export default function LoginForm() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-cocoa-900 to-cocoa-950 px-4">
       <Suspense fallback={
         <div className="w-full max-w-md text-center">
-          <p className="text-gray-500">Loading...</p>
+          <p className="text-orange-200/70">Loading...</p>
         </div>
       }>
         <LoginFields />

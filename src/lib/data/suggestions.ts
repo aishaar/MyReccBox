@@ -105,6 +105,26 @@ export async function getSuggestions(params: {
 }
 
 /**
+ * Counts how many of a user's suggestions are unread (seen = false).
+ * Not filtered by category — represents the whole inbox.
+ */
+export async function getUnreadCount(userId: string): Promise<number> {
+  const supabase = createClient()
+
+  const { count, error } = await supabase
+    .from('suggestions')
+    .select('*', { count: 'exact', head: true })
+    .eq('user_id', userId)
+    .eq('seen', false)
+
+  if (error) {
+    return 0
+  }
+
+  return count ?? 0
+}
+
+/**
  * Updates a suggestion's seen status to true, only if it is currently false.
  * This makes the operation idempotent at the database level — if the suggestion
  * is already seen, no update is performed and success is still returned.

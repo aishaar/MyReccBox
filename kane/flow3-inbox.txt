@@ -1,0 +1,3 @@
+Go to https://my-recc-box.vercel.app/inbox
+Verify that either suggestion cards are seen OR a login prompt appears
+Verify the page does not show a blank white screen or an unhandled error

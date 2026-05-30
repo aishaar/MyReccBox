@@ -1,15 +1,19 @@
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
-import { getSuggestions } from '@/lib/data/suggestions'
+import { getSuggestions, getUnreadCount } from '@/lib/data/suggestions'
 import { markSuggestionSeen } from './actions'
 import type { Category } from '@/types'
 import LogoutButton from '@/components/LogoutButton'
+import ShareLinkButton from '@/components/ShareLinkButton'
 import CategoryFilter from '@/components/CategoryFilter'
 import InboxSuggestionList from '@/components/InboxSuggestionList'
+import InboxHeading from '@/components/InboxHeading'
 import Pagination from '@/components/Pagination'
+import { UnreadProvider } from '@/components/UnreadContext'
 
 const VALID_CATEGORIES: Category[] = ['Book', 'Movie', 'Show', 'Restaurant', 'Other']
 const PAGE_SIZE = 20
+const SHARE_URL = 'https://my-recc-box.vercel.app/recommend/aisha'
 
 interface InboxPageProps {
   searchParams: { category?: string; page?: string }
@@ -36,48 +40,56 @@ export default async function InboxPage({ searchParams }: InboxPageProps) {
 
   const activeFilter: Category | 'all' = category ?? 'all'
 
-  const { data: suggestions, total, totalPages } = await getSuggestions({
-    userId: user.id,
-    category,
-    page,
-    pageSize: PAGE_SIZE,
-  })
+  const [{ data: suggestions, totalPages }, unreadCount] = await Promise.all([
+    getSuggestions({
+      userId: user.id,
+      category,
+      page,
+      pageSize: PAGE_SIZE,
+    }),
+    getUnreadCount(user.id),
+  ])
 
   return (
-    <main className="min-h-screen bg-gray-50 px-4 py-8">
+    <main className="min-h-screen bg-cocoa-950 px-4 py-8">
       <div className="mx-auto max-w-3xl">
-        <header className="mb-8 flex items-center justify-between">
-          <h1 className="text-2xl font-bold text-gray-900">Recommendations Received</h1>
-          <LogoutButton />
-        </header>
+        <UnreadProvider initialUnread={unreadCount}>
+          <header className="mb-8 flex flex-wrap items-center justify-between gap-3">
+            <InboxHeading />
+            <div className="flex items-center gap-3">
+              <ShareLinkButton url={SHARE_URL} />
+              <LogoutButton />
+            </div>
+          </header>
 
-        <CategoryFilter
-          categories={VALID_CATEGORIES}
-          activeCategory={activeFilter}
-        />
+          <CategoryFilter
+            categories={VALID_CATEGORIES}
+            activeCategory={activeFilter}
+          />
 
-        {suggestions.length === 0 ? (
-          <div className="mt-12 text-center">
-            <p className="text-gray-500">
-              {category
-                ? `No suggestions found for "${category}".`
-                : 'No suggestions yet. Share your link with friends to start receiving recommendations!'}
-            </p>
-          </div>
-        ) : (
-          <>
-            <InboxSuggestionList
-              suggestions={suggestions}
-              markSeen={markSuggestionSeen}
-            />
+          {suggestions.length === 0 ? (
+            <div className="mt-12 text-center">
+              <p className="text-orange-200/70">
+                {category
+                  ? `No suggestions found for "${category}".`
+                  : 'No suggestions yet. Share your link with friends to start receiving recommendations!'}
+              </p>
+            </div>
+          ) : (
+            <>
+              <InboxSuggestionList
+                suggestions={suggestions}
+                markSeen={markSuggestionSeen}
+              />
 
-            {totalPages > 1 && (
-              <div className="mt-8">
-                <Pagination currentPage={page} totalPages={totalPages} />
-              </div>
-            )}
-          </>
-        )}
+              {totalPages > 1 && (
+                <div className="mt-8">
+                  <Pagination currentPage={page} totalPages={totalPages} />
+                </div>
+              )}
+            </>
+          )}
+        </UnreadProvider>
       </div>
     </main>
   )

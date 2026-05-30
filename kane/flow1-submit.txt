@@ -1,0 +1,7 @@
+Go to https://my-recc-box.vercel.app/recommend/aisha
+Fill in the "Your name" field with "Test Friend"
+Select "Movie" from the Category dropdown
+Fill in the Title field with "Inception"
+Fill in the Notes field with "Must watch"
+Click the Submit button
+Verify that a success message appears confirming the suggestion was sent

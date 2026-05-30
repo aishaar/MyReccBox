@@ -2,6 +2,7 @@
 
 import type { Suggestion, ActionResult } from '@/types'
 import SuggestionCard from './SuggestionCard'
+import { useUnread } from './UnreadContext'
 
 interface InboxSuggestionListProps {
   suggestions: Suggestion[]
@@ -9,10 +10,20 @@ interface InboxSuggestionListProps {
 }
 
 export default function InboxSuggestionList({ suggestions, markSeen }: InboxSuggestionListProps) {
+  const { decrementUnread, incrementUnread } = useUnread()
+
   async function handleMarkSeen(id: string): Promise<void> {
-    const result = await markSeen(id)
-    if (!result.success) {
-      throw new Error(result.error ?? 'Failed to mark as seen')
+    // The card only calls this for previously-unread suggestions, so each
+    // call corresponds to exactly one unread -> seen transition.
+    decrementUnread()
+    try {
+      const result = await markSeen(id)
+      if (!result.success) {
+        throw new Error(result.error ?? 'Failed to mark as seen')
+      }
+    } catch (err) {
+      incrementUnread()
+      throw err
     }
   }
 

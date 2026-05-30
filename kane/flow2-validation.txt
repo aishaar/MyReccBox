@@ -1,0 +1,5 @@
+Go to https://my-recc-box.vercel.app/recommend/aisha
+Do not fill in any fields
+Click the Submit button
+Verify that at least one validation error message appears
+Verify that the form is still visible and not replaced by a success message
