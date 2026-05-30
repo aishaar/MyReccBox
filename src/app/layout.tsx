@@ -5,8 +5,12 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "MyReccBox",
-  description: "Collect recommendations from friends in one place",
+  title: {
+    default: "MyReccBox",
+    template: "%s | MyReccBox",
+  },
+  description:
+    "Collect recommendations from friends in one place. Books, movies, shows, restaurants, and more — all in your personal inbox.",
 };
 
 export default function RootLayout({
@@ -16,7 +20,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={`${inter.className} antialiased`}>{children}</body>
     </html>
   );
 }

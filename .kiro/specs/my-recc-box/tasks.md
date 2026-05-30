@@ -32,14 +32,14 @@ This plan implements MyReccBox as a Next.js 14 App Router application with Supab
     - Include indexes for `(user_id, created_at DESC)` and `(user_id, category, created_at DESC)`
     - _Requirements: 7.1, 7.2, 7.3_
 
-- [ ] 2. Implement authentication and middleware
-  - [ ] 2.1 Create auth middleware for protected routes
+- [x] 2. Implement authentication and middleware
+  - [x] 2.1 Create auth middleware for protected routes
     - Create `src/middleware.ts` that intercepts requests to `/inbox`
     - Verify Supabase session; redirect unauthenticated users to `/login`
     - Allow all other routes to pass through
     - _Requirements: 2.4, 5.1_
 
-  - [ ] 2.2 Implement login page with magic link form
+  - [x] 2.2 Implement login page with magic link form
     - Create `src/app/login/page.tsx` as a Client Component
     - Render email input field and submit button
     - Validate email format on client side before submission
@@ -47,14 +47,14 @@ This plan implements MyReccBox as a Next.js 14 App Router application with Supab
     - Display confirmation message on success, error message on failure
     - _Requirements: 5.1, 5.2, 5.3_
 
-  - [ ] 2.3 Implement auth callback route
+  - [x] 2.3 Implement auth callback route
     - Create `src/app/auth/callback/route.ts` as a Route Handler
     - Exchange the magic link code for a session using `supabase.auth.exchangeCodeForSession`
     - Redirect to `/inbox` on success
     - Redirect to `/login` with error query param on expired/invalid link
     - _Requirements: 5.4, 5.5_
 
-  - [ ] 2.4 Implement logout functionality
+  - [x] 2.4 Implement logout functionality
     - Create a `LogoutButton` Client Component in `src/components/LogoutButton.tsx`
     - Call `supabase.auth.signOut()` and redirect to `/login`
     - _Requirements: 5.6_
@@ -66,32 +66,32 @@ This plan implements MyReccBox as a Next.js 14 App Router application with Supab
     - Create `tests/properties/email-validation.property.test.ts`
     - **Validates: Requirements 5.3**
 
-- [ ] 3. Implement suggestion submission
-  - [ ] 3.1 Create data access function for username resolution
+- [x] 3. Implement suggestion submission
+  - [x] 3.1 Create data access function for username resolution
     - Create `src/lib/data/profiles.ts` with `resolveUsername(username: string): Promise<string | null>`
     - Query `profiles` table for matching username, return `id` or null
     - _Requirements: 1.7_
 
-  - [ ] 3.2 Create data access function for suggestion creation
+  - [x] 3.2 Create data access function for suggestion creation
     - Create `src/lib/data/suggestions.ts` with `createSuggestion(data: NewSuggestion): Promise<ActionResult>`
     - Insert into `suggestions` table with server-side validation of field constraints
     - Return success/error result
     - _Requirements: 1.2, 7.2, 7.3_
 
-  - [ ] 3.3 Implement submission Server Action
+  - [x] 3.3 Implement submission Server Action
     - Create `src/app/recommend/[username]/actions.ts` with `submitSuggestion` Server Action
     - Parse and validate FormData (name required ≤100, category in valid set, title required ≤200, notes optional ≤500)
     - Call `createSuggestion` on valid input
     - Return `ActionResult` with success or field-level errors
     - _Requirements: 1.2, 1.4, 7.3_
 
-  - [ ] 3.4 Implement submission page Server Component
+  - [x] 3.4 Implement submission page Server Component
     - Create `src/app/recommend/[username]/page.tsx`
     - Resolve username via `resolveUsername`; render not-found message if null
     - Pass `username` and `userId` to the Client Component form
     - _Requirements: 1.5, 1.7_
 
-  - [ ] 3.5 Implement submission form Client Component
+  - [x] 3.5 Implement submission form Client Component
     - Create `src/components/SubmissionForm.tsx`
     - Render form with fields: Your Name (text, required), Category (select), Title (text, required), Notes (textarea, optional)
     - Client-side validation for required fields and max lengths
@@ -113,18 +113,18 @@ This plan implements MyReccBox as a Next.js 14 App Router application with Supab
     - Create `tests/properties/submission-validation.property.test.ts`
     - **Validates: Requirements 1.4, 7.1, 7.3**
 
-- [ ] 4. Checkpoint - Ensure submission flow works end-to-end
+- [x] 4. Checkpoint - Ensure submission flow works end-to-end
   - Ensure all tests pass, ask the user if questions arise.
 
-- [ ] 5. Implement inbox with suggestion display and pagination
-  - [ ] 5.1 Create data access function for fetching suggestions
+- [x] 5. Implement inbox with suggestion display and pagination
+  - [x] 5.1 Create data access function for fetching suggestions
     - Add `getSuggestions` to `src/lib/data/suggestions.ts`
     - Accept `userId`, optional `category`, `page`, `pageSize` parameters
     - Query suggestions with filters, order by `created_at DESC`, apply pagination
     - Return `PaginatedResult<Suggestion>`
     - _Requirements: 2.1, 2.5, 4.2, 4.3_
 
-  - [ ] 5.2 Implement inbox page Server Component
+  - [x] 5.2 Implement inbox page Server Component
     - Create `src/app/inbox/page.tsx`
     - Get authenticated user from Supabase session
     - Accept `category` and `page` search params
@@ -133,24 +133,24 @@ This plan implements MyReccBox as a Next.js 14 App Router application with Supab
     - Show empty state message when no suggestions exist
     - _Requirements: 2.1, 2.3, 2.4, 2.5_
 
-  - [ ] 5.3 Implement SuggestionCard Client Component
+  - [x] 5.3 Implement SuggestionCard Client Component
     - Create `src/components/SuggestionCard.tsx`
     - Display sender name, category badge, title, truncated notes (200 chars with indicator), relative timestamp
     - Apply reduced opacity for seen suggestions
     - Handle click to mark as seen
     - _Requirements: 2.2, 3.2_
 
-  - [ ] 5.4 Implement notes truncation utility
+  - [x] 5.4 Implement notes truncation utility
     - Create `src/lib/utils/truncate.ts` with a `truncateNotes(notes: string, maxLength: number): string` function
     - Return full text if ≤ maxLength, otherwise first maxLength chars + "…"
     - _Requirements: 2.2_
 
-  - [ ] 5.5 Implement relative timestamp utility
+  - [x] 5.5 Implement relative timestamp utility
     - Create `src/lib/utils/time.ts` with a `relativeTime(dateString: string): string` function
     - Return human-readable relative time (e.g., "2 hours ago", "3 days ago")
     - _Requirements: 2.2_
 
-  - [ ] 5.6 Implement CategoryFilter Client Component
+  - [x] 5.6 Implement CategoryFilter Client Component
     - Create `src/components/CategoryFilter.tsx`
     - Render filter bar with "All", "Book", "Movie", "Show", "Restaurant", "Other" options
     - Highlight active filter; default to "All"
@@ -158,7 +158,7 @@ This plan implements MyReccBox as a Next.js 14 App Router application with Supab
     - Show message when no suggestions match selected category
     - _Requirements: 4.1, 4.2, 4.3, 4.4_
 
-  - [ ] 5.7 Implement Pagination Client Component
+  - [x] 5.7 Implement Pagination Client Component
     - Create `src/components/Pagination.tsx`
     - Display page navigation when totalPages > 1
     - Update URL search params on page change
@@ -182,21 +182,21 @@ This plan implements MyReccBox as a Next.js 14 App Router application with Supab
     - Create `tests/properties/pagination.property.test.ts`
     - **Validates: Requirements 2.5**
 
-- [ ] 6. Implement mark-as-seen functionality
-  - [ ] 6.1 Create data access function for updating seen status
+- [x] 6. Implement mark-as-seen functionality
+  - [x] 6.1 Create data access function for updating seen status
     - Add `updateSuggestionSeen` to `src/lib/data/suggestions.ts`
     - Accept `id` and `userId`, update `seen` to true only if currently false
     - Return success/error result
     - _Requirements: 3.1, 3.3_
 
-  - [ ] 6.2 Implement markSeen Server Action
+  - [x] 6.2 Implement markSeen Server Action
     - Create `src/app/inbox/actions.ts` with `markSuggestionSeen` Server Action
     - Verify authenticated user owns the suggestion
     - Call `updateSuggestionSeen`
     - Return `ActionResult`
     - _Requirements: 3.1, 3.3, 3.4_
 
-  - [ ] 6.3 Add optimistic UI update to SuggestionCard
+  - [x] 6.3 Add optimistic UI update to SuggestionCard
     - Update `SuggestionCard` to use `useOptimistic` or local state for immediate visual feedback
     - On click of unseen card: optimistically set seen, call Server Action, roll back on error
     - Skip network call if suggestion is already seen
@@ -215,11 +215,10 @@ This plan implements MyReccBox as a Next.js 14 App Router application with Supab
     - Create `tests/properties/category-filter.property.test.ts`
     - **Validates: Requirements 4.2, 4.3**
 
-- [ ] 7. Checkpoint - Ensure inbox features work end-to-end
-  - Ensure all tests pass, ask the user if questions arise.
+- [x] 7. Checkpoint - Ensure inbox features work end-to-end
 
-- [ ] 8. Implement landing page and final wiring
-  - [ ] 8.1 Implement landing page
+- [x] 8. Implement landing page and final wiring
+  - [x] 8.1 Implement landing page
     - Create `src/app/page.tsx` as a Server Component
     - Render headline and description communicating MyReccBox's purpose
     - Render "Try the Demo" button linking to `/recommend/aisha`
@@ -227,13 +226,13 @@ This plan implements MyReccBox as a Next.js 14 App Router application with Supab
     - Style with Tailwind CSS
     - _Requirements: 6.1, 6.2, 6.3, 6.4_
 
-  - [ ] 8.2 Create global layout and styling
+  - [x] 8.2 Create global layout and styling
     - Update `src/app/layout.tsx` with app-wide metadata, font, and Tailwind setup
     - Create shared UI components (error toast, loading states) as needed
     - Ensure consistent styling across all pages
     - _Requirements: 6.1_
 
-- [ ] 9. Final checkpoint - Ensure all tests pass
+- [x] 9. Final checkpoint - Ensure all tests pass
   - Ensure all tests pass, ask the user if questions arise.
 
 ## Notes
