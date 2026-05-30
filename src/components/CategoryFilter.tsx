@@ -3,18 +3,21 @@
 import { useRouter, useSearchParams } from 'next/navigation'
 import type { Category } from '@/types'
 
-const CATEGORIES: (Category | 'All')[] = ['All', 'Book', 'Movie', 'Show', 'Restaurant', 'Other']
+interface CategoryFilterProps {
+  categories: Category[]
+  activeCategory: Category | 'all'
+}
 
-export default function CategoryFilter() {
+export default function CategoryFilter({ categories, activeCategory }: CategoryFilterProps) {
   const router = useRouter()
   const searchParams = useSearchParams()
 
-  const activeCategory = searchParams.get('category') ?? 'All'
+  const options: (Category | 'all')[] = ['all', ...categories]
 
-  function handleFilterChange(category: Category | 'All') {
+  function handleFilterChange(category: Category | 'all') {
     const params = new URLSearchParams(searchParams.toString())
 
-    if (category === 'All') {
+    if (category === 'all') {
       params.delete('category')
     } else {
       params.set('category', category)
@@ -28,7 +31,7 @@ export default function CategoryFilter() {
 
   return (
     <nav aria-label="Category filter" className="flex flex-wrap gap-2">
-      {CATEGORIES.map((category) => {
+      {options.map((category) => {
         const isActive = category === activeCategory
         return (
           <button
@@ -41,7 +44,7 @@ export default function CategoryFilter() {
                 : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
             }`}
           >
-            {category}
+            {category === 'all' ? 'All' : category}
           </button>
         )
       })}
